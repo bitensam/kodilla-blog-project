@@ -43,14 +43,95 @@ function titleClickHandler(event) {
     const targetArticle = document.querySelector(articleSelector);
     console.log(targetArticle);
 
-    /* add class 'active' to the correct article */
+    /* [DONE] add class 'active' to the correct article */
 
     targetArticle.classList.add('active');
 
 }
 
-const links = document.querySelectorAll('.titles a');
 
-for (let link of links) {
-    link.addEventListener('click', titleClickHandler);
+
+/* GENERATE TITLE LINKS CONST DECLARATION*/
+
+const optArticleSelector = '.post',
+    optTitleSelector = '.post-title',
+    optTitleListSelector = '.titles';
+
+/* Generate Title links function*/
+
+function generateTitleLinks() {
+
+    console.log('Title Links was generated');
+
+
+    /* [DONE] Remove content of links list in the left column*/
+
+    const titleList = document.querySelector(optTitleListSelector);
+
+
+    titleList.innerHTML = '';
+
+    console.log('Title list was deleted');
+
+
+    const titleListElements = document.querySelectorAll('.titles li');
+
+    titleListElements.innerHTML = '';
+
+    console.log('List of elements of class .titles was deleted');
+
+    let html = '';
+
+    /* [DONE] For each article */
+
+    const articles = document.querySelectorAll(optArticleSelector);
+
+    for (let article of articles) {
+
+
+
+        /* [DONE] get article id and assign to const */
+
+        const articleId = article.getAttribute('id');
+
+        console.log(articleId);
+
+
+        /* [DONE] find title element and assign to const*/
+
+        const articleTitle = article.querySelector(optTitleSelector).innerHTML;
+
+        console.log(articleTitle);
+
+
+
+
+        /* [in progress] Get the title from the title element*/
+
+        const linkHTML = '<li><a href="#' + articleId + '"><span>' + articleTitle + '</span></a></li>';
+
+        console.log(linkHTML);
+
+        /* [in progress] create link html code and assign to const */
+
+        titleList.innerHTML = titleList.innerHTML + linkHTML;
+
+        /* [in progress] insert made html code into links list on the left column */
+
+
+        html = html + linkHTML;
+
+        console.log(html);
+    }
+
+
+    const links = document.querySelectorAll('.titles a');
+
+    console.log(links);
+
+    for (let link of links) {
+        link.addEventListener('click', titleClickHandler);
+    }
 }
+
+generateTitleLinks();
