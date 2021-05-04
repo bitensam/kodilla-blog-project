@@ -57,22 +57,21 @@ a {
   flex: 1 0 0;
 }
 
-.posts {
-  flex: 2 0 0;
-}
-
 .sidebar, .posts {
   background: $color-column;
   margin-right: 10px;
   padding: 40px;
   border: 2px solid $color-dark;
   box-shadow: 0 7px 15px rgba(0, 0, 0, 0.19), 0 3px 3px rgba(0,0,0,0.23);
+  height: 120vh;
 }
 
 .posts {
+  flex: 2 0 0;
   background-color: transparent;
+  position: relative;
+  padding: 0;
 }
-
 /* Logo */
 
 .logo {
@@ -112,9 +111,21 @@ a {
 /* Post */
 
 .post {
-  display: none;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 90%;
+  opacity: 0;
+  background-color: transparent;
+  transition: all 0.7s linear;
   &.active {
     display: block;
+    opacity: 1;
+    z-index: 2;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 }
 
