@@ -114,7 +114,7 @@ function generateTitleLinks() {
 
         /* [in progress] create link html code and assign to const */
 
-        titleList.innerHTML = titleList.innerHTML + linkHTML;
+        titleList.insertAdjacentHTML('beforeend', linkHTML);
 
         /* [in progress] insert made html code into links list on the left column */
 
