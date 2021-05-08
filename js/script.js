@@ -60,7 +60,7 @@ const optArticleSelector = '.post',
 
 /* Generate Title links function*/
 
-function generateTitleLinks() {
+function generateTitleLinks(customSelector = '') {
 
   console.log('Title Links was generated');
 
@@ -85,8 +85,8 @@ function generateTitleLinks() {
 
   /* [DONE] For each article */
 
-  const articles = document.querySelectorAll(optArticleSelector);
-
+  const articles = document.querySelectorAll(optArticleSelector + customSelector);
+  console.log(customSelector + optArticleSelector);
   for (let article of articles) {
 
 
@@ -202,7 +202,7 @@ function tagClickHandler(event) {
   for (let foundTagLink of foundTagLinks) {
 
     /* add class active */
-    foundTagLink.add('active');
+    foundTagLink.classList.add('active');
     /* END LOOP: for each found tag link */
   }
   /* execute function "generateTitleLinks" with article selector as argument */
