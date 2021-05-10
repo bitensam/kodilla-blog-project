@@ -287,11 +287,11 @@ function authorClickHandler(event) {
     /* END LOOP: for each found author link */
   }
   /* execute function "generateTitleLinks" with article selector as argument */
-  generateTitleLinks('[data-author~="' + author + '"]');
+  generateTitleLinks('[data-author="' + author + '"]');
 }
 
 function addClickListenersToAuthors() {
-  /* find all links to tags */
+  /* find all links to authors */
   const linkAuthors = document.querySelectorAll('a[href ^= "#author-"]');
   /* START LOOP: for each link */
   for (let linkAuthor of linkAuthors) {
