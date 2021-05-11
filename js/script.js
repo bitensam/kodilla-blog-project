@@ -207,6 +207,7 @@ function generateTags() {
   }
   /* [NEW] find list of tags in right column */
   const tagList = document.querySelector('.tags');
+  /*[NEW] calculate number of used tags */
   const tagsParams = calculateTagsParams(allTags);
   console.log('tagsParams:', tagsParams)
   /* [NEW] Create variable fo all links html code */
@@ -276,6 +277,17 @@ addClickListenersToTags();
 
 /*MODULE 6.2 Authors */
 
+/* Calculate Authors PARAMETERS*/
+const calculateAuthorsParams = function (authors) {
+  const params = { min: 99999, max: 0 };
+  for (let author in authors) {
+    console.log(author + ' is used ' + authors[author] + ' times');
+    params.max = Math.max(authors[author], params.max);
+    params.min = Math.min(authors[author], params.min);
+  }
+  return params;
+}
+
 function generateAuthors() {
   /* [NEW] create a new variable allAuthors with an empty object */
   let allAuthors = {};
@@ -311,12 +323,15 @@ function generateAuthors() {
   }
   /* [NEW] find list of authors in right column */
   const authorList = document.querySelector('.authors');
+  /*[NEW] calculate number of used tags */
+  const authorsParams = calculateAuthorsParams(allAuthors);
+  console.log('authorsParams:', authorsParams)
   /* [NEW] Create variable to all links html code */
   let allAuthorsHTML = '';
   /*[NEW] START LOOP: for each author in allAuthors */
   for (let articleAuthor in allAuthors) {
     /*[NEW] generate code of a link and add it to allAuthorsHTML*/
-    allAuthorsHTML += '<li><a href="#author-' + articleAuthor + '">' + articleAuthor + '</a></li>'
+    allAuthorsHTML += '<li><a href="#author-' + articleAuthor + '">' + articleAuthor + '(' + allAuthors[articleAuthor] + ')</a></li >'
     /*[NEW] END LOOP: for each tag in allAuthors */
   }
   console.log('allAuthors:', allAuthors);
