@@ -1,5 +1,14 @@
 'use strict';
 
+const optArticleSelector = '.post',
+  optTitleSelector = '.post-title',
+  optTitleListSelector = '.titles',
+  optArticleTagsSelector = '.post-tags .list',
+  optArticleAuthorSelector = '.post-author',
+  optTagsListSelector = '.tags.list',
+  optCloudClassCount = 5,
+  optCloudClassPrefix = 'tag-size-';
+
 function titleClickHandler(event) {
 
   event.preventDefault();
@@ -50,14 +59,6 @@ function titleClickHandler(event) {
 }
 
 
-
-/* GENERATE TITLE LINKS CONST DECLARATION*/
-
-const optArticleSelector = '.post',
-  optTitleSelector = '.post-title',
-  optTitleListSelector = '.titles',
-  optArticleTagsSelector = '.post-tags .list',
-  optArticleAuthorSelector = '.post-author';
 
 /* Generate Title links function*/
 
@@ -138,7 +139,32 @@ function generateTitleLinks(customSelector = '') {
 
 generateTitleLinks();
 
+/* Calculate TAGS PARAMETERS*/
+const calculateTagsParams = function (tags) {
+  const params = { min: 99999, max: 0 };
+  for (let tag in tags) {
+    console.log(tag + ' is used ' + tags[tag] + ' times');
+    params.max = Math.max(tags[tag], params.max);
+    params.min = Math.min(tags[tag], params.min);
+  }
+  return params;
+}
+
+
+const calculateTagClass = function (count, params) {
+  const normalizedCount = count - params.min;
+  const normalizedMax = params.max - params.min;
+  const percentage = normalizedCount / normalizedMax;
+  const classNumber = Math.floor(percentage * (optCloudClassCount - 1) + 1);
+
+  console.log('tag class number:', classNumber);
+
+  return optCloudClassPrefix + classNumber;
+}
+
 function generateTags() {
+  /* [NEW] create a new variable allTags with an empty object */
+  let allTags = {};
   /* [DONE] find all articles */
   const articles = document.querySelectorAll(optArticleSelector);
   console.log(articles);
@@ -165,14 +191,37 @@ function generateTags() {
       const linkHTML = '<li><a href="#tag-' + tag + '">' + tag + '</a></li>';
       console.log(linkHTML);
       html = html + linkHTML;
+      /* [NEW] check if this link is NOT already in allTags */
+      if (!allTags.hasOwnProperty(tag)) {
+        /* [NEW] add generated code to allTags object */
+        allTags[tag] = 1;
+      } else {
+        allTags[tag]++;
+      }
       /* END LOOP: for each tag */
     }
     /* [DONE] insert HTML of all the links into the tags wrapper */
     tagsWrapper.innerHTML = html;
     /* END LOOP: for every article: */
   }
+  /* [NEW] find list of tags in right column */
+  const tagList = document.querySelector('.tags');
+  const tagsParams = calculateTagsParams(allTags);
+  console.log('tagsParams:', tagsParams)
+  /* [NEW] Create variable fo all links html code */
+  let allTagsHTML = '';
+  /*[NEW] START LOOP: for each tag in allTags */
+  for (let tag in allTags) {
+    /*[NEW] generate code of a link and add it to allTagsHTML*/
+    //allTagsHTML += tag + ' (' + allTags[tag] + ')';
+    allTagsHTML += '<li><a href="#tag-' + tag + '" class="' + calculateTagClass(allTags[tag], tagsParams) + '">' + tag + '(' + allTags[tag] + ')' + '</a></li>'
+    /*[NEW] END LOOP: for each tag in allTags */
+  }
+  /*[NEW] add html from allTagsHTML to tagList*/
+  tagList.innerHTML = allTagsHTML;
+  //tagList.innerHTML = allTags.join(' ');
+  console.log(allTags);
 }
-
 generateTags();
 
 function tagClickHandler(event) {
